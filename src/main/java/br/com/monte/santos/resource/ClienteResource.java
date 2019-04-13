@@ -2,6 +2,8 @@ package br.com.monte.santos.resource;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +33,11 @@ public class ClienteResource {
 	private ClienteService service;
 	
 	@GetMapping
-	public ResponseEntity<?> listarTodos() {
+	public ResponseEntity<?> listarTodos(HttpServletRequest httpServletRequest) {
+		System.out.println("IP LOCAL:  "+httpServletRequest.getLocalAddr());
+		System.out.println("IP REMOTE: "+httpServletRequest.getRemoteAddr());
+		System.out.println("header: "+httpServletRequest.getHeader("x-forwarded-for"));
+		System.out.println("HEADER: "+httpServletRequest.getHeader("X_FORWARDED_FOR"));
 		List<Cliente> clientes = this.service.listarTodos();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
@@ -43,7 +49,8 @@ public class ClienteResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> salvar(@RequestBody Cliente cliente) {
+	public ResponseEntity<?> salvar(@RequestBody Cliente cliente, HttpServletRequest httpServletRequest) {
+		System.out.println("IP: "+httpServletRequest.getRemoteAddr());
 		Cliente clienteNovo = salvarOuAtualizar(cliente);
 		return new ResponseEntity<>(clienteNovo, HttpStatus.CREATED);
 	}
