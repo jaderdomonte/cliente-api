@@ -1,5 +1,9 @@
 package br.com.monte.santos.facade;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import br.com.monte.santos.response.LocationResponse;
@@ -27,9 +31,17 @@ public class ClimaFacade {
 	}
 	
 	public LocationResponse consultarClimaPorLocalizacao(Long idLocalizacao) {
-		LocationResponse localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
-														 .getForObject("/", LocationResponse.class, idLocalizacao);
-		return localizacaoResponse;
+		ResponseEntity<LocationResponse> localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
+																		 .exchange("/", HttpMethod.GET, new HttpEntity<>(criarHeaders()), LocationResponse.class, idLocalizacao);
+//		LocationResponse localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
+//														 .getForObject("/", LocationResponse.class, idLocalizacao);
+		return localizacaoResponse.getBody();
 		
+	}
+	
+	private HttpHeaders criarHeaders() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("User-Agent", "eltabo");
+		return headers;
 	}
 }
