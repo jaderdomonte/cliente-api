@@ -15,7 +15,7 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class LocalizacaoDadosResponse {
+public class IPVigilanteDadosResponse {
 	
 	@JsonProperty("ipv4")
 	private String ipv4;

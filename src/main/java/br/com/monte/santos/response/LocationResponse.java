@@ -1,5 +1,9 @@
 package br.com.monte.santos.response;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +17,8 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class LocalizacaoResponse {
+public class LocationResponse {
 	
-	private String status;
-
-	private LocalizacaoDadosResponse data;
+	@JsonProperty("consolidated_weather")
+	private List<ClimaResponse> climaResponse;
 }

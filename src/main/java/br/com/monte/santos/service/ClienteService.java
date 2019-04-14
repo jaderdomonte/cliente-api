@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.monte.santos.dto.LocalizacaoDTO;
+import br.com.monte.santos.facade.ClimaFacade;
 import br.com.monte.santos.facade.GeolocalizacaoFacade;
 import br.com.monte.santos.model.Cliente;
 import br.com.monte.santos.repository.ClienteRepository;
+import br.com.monte.santos.response.LocationSearchResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +27,16 @@ public class ClienteService {
 	@Autowired
 	private GeolocalizacaoFacade geolocalizacaoFacade;
 	
+	@Autowired
+	private ClimaFacade climaFacade;
+	
 	public List<Cliente> listarTodos(){
-		LocalizacaoDTO consultarLocalizacaoPorIp = geolocalizacaoFacade.consultarLocalizacaoPorIp("189.40.57.170");
+		LocalizacaoDTO localizacao = geolocalizacaoFacade.consultarLocalizacaoPorIp("189.40.57.170");
+		System.out.println("LocalizacaoDTO: "+localizacao);
+//		LocationSearchResponse locationSearch = climaFacade.consultarLocalizacaoPorLatitudeLongitude(localizacao.getLatitude(), localizacao.getLongitude());
+//		System.out.println("LocationSearchResponse: "+locationSearch);
+		LocationSearchResponse locationSearch = climaFacade.consultarLocalizacaoPorCidade(localizacao.getCidade());
+		System.out.println("LocationSearchResponse: "+locationSearch);
 		return this.repository.findAll();
 	}
 	

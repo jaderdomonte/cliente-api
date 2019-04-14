@@ -14,4 +14,6 @@ public class LocalizacaoDTO {
 	private String latitude;
 	
 	private String longitude;
+	
+	private String cidade;
 }

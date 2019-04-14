@@ -1,4 +1,4 @@
-package br.com.monte.santos.resource;
+package br.com.monte.santos.endpoint;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "v1/clientes")
-public class ClienteResource {
+public class ClienteEndpoint {
 
 	@Autowired
 	private ClienteService service;
