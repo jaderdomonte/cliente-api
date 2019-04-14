@@ -34,10 +34,6 @@ public class ClienteResource {
 	
 	@GetMapping
 	public ResponseEntity<?> listarTodos(HttpServletRequest httpServletRequest) {
-		System.out.println("IP LOCAL:  "+httpServletRequest.getLocalAddr());
-		System.out.println("IP REMOTE: "+httpServletRequest.getRemoteAddr());
-		System.out.println("header: "+httpServletRequest.getHeader("x-forwarded-for"));
-		System.out.println("HEADER: "+httpServletRequest.getHeader("X_FORWARDED_FOR"));
 		List<Cliente> clientes = this.service.listarTodos();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}

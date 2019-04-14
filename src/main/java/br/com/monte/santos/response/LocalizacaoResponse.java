@@ -17,5 +17,5 @@ public class LocalizacaoResponse {
 	
 	private String status;
 
-	private LocalizacaoDadosResponse dados;
+	private LocalizacaoDadosResponse data;
 }

@@ -26,8 +26,7 @@ public class ClienteService {
 	private GeolocalizacaoFacade geolocalizacaoFacade;
 	
 	public List<Cliente> listarTodos(){
-		LocalizacaoDTO consultarLocalizacaoPorIp = geolocalizacaoFacade.consultarLocalizacaoPorIp("201.90.180.103");
-		System.out.println("GEOLOCALIZAÇÃO: "+consultarLocalizacaoPorIp);
+		LocalizacaoDTO consultarLocalizacaoPorIp = geolocalizacaoFacade.consultarLocalizacaoPorIp("189.40.57.170");
 		return this.repository.findAll();
 	}
 	
