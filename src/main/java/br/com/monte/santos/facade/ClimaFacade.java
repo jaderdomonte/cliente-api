@@ -1,11 +1,8 @@
 package br.com.monte.santos.facade;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import br.com.monte.santos.response.ClimaConsolidadoResponse;
 import br.com.monte.santos.response.LocationResponse;
 import br.com.monte.santos.response.LocationSearchResponse;
 import br.com.monte.santos.rest.client.RestClient;
@@ -15,33 +12,50 @@ public class ClimaFacade {
 
 	private static final String META_WEATHER_API_LOCATION = "https://www.metaweather.com/api/location";
 
-	private static final String META_WEATHER_API_LOCATION_SEARCH = META_WEATHER_API_LOCATION + "/search";
-	
 	public LocationSearchResponse consultarLocalizacaoPorCidade(String cidade) {
-		LocationSearchResponse localizacao = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION_SEARCH)
-				   									   .getForObject("/?query=", LocationSearchResponse.class, cidade);
+		LocationSearchResponse[] locationSearch= RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
+														   .getForObject("/search/?query="+cidade, LocationSearchResponse[].class);
 		
-		return localizacao;
+		System.out.println(locationSearch[0]);
+		
+		return null;
 	}
 	
+//	public LocationSearchResponse consultarLocalizacaoPorCidade(String cidade) {
+//
+//		LocationSearchResponse[] localizacao = null;
+//
+//		RestTemplate restTemplate = new RestTemplate();
+//		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+//
+//		localizacao = restTemplate.getForObject(META_WEATHER_API_LOCATION_SEARCH + cidade, LocationSearchResponse[].class);
+//		
+//		System.out.println(localizacao[0]);
+//		
+//		return localizacao[0];
+//	}
+	
 	public LocationSearchResponse consultarLocalizacaoPorLatitudeLongitude(String latitude, String longitude) {
-		LocationSearchResponse localizacao = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION_SEARCH)
-													   .getForObject("/?lattlong=", LocationSearchResponse.class, latitude+","+longitude);
-		return localizacao;
+		LocationSearchResponse locationSearch[] = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
+													   .getForObject(construirUrlComParametros(latitude, longitude), LocationSearchResponse[].class);
+//		System.out.println(locationSearch[0]);
+		
+		consultarClimaPorLocalizacao(locationSearch[0].getId());
+		
+		return locationSearch[0];
+	}
+
+	private String construirUrlComParametros(String latitude, String longitude) {
+		return "/search/?lattlong="+latitude+","+longitude;
 	}
 	
 	public LocationResponse consultarClimaPorLocalizacao(Long idLocalizacao) {
-		ResponseEntity<LocationResponse> localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
-																		 .exchange("/", HttpMethod.GET, new HttpEntity<>(criarHeaders()), LocationResponse.class, idLocalizacao);
-//		LocationResponse localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
-//														 .getForObject("/", LocationResponse.class, idLocalizacao);
-		return localizacaoResponse.getBody();
+		LocationResponse localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
+														 .getForObject("/{woeid}", LocationResponse.class, idLocalizacao);
 		
-	}
-	
-	private HttpHeaders criarHeaders() {
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("User-Agent", "eltabo");
-		return headers;
+		System.out.println(localizacaoResponse);
+		
+		return null;
+		
 	}
 }

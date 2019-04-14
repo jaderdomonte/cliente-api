@@ -15,20 +15,17 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class LocationSearchResponse {
+public class LocalizacaoPaiResponse {
 
-	@JsonProperty("woeid")
-	private Long id;
-	
 	@JsonProperty("title")
-	private String localizacao;
+	private String nome;
 	
 	@JsonProperty("location_type")
-	private String tipoLocalizacao;
+	private String tipo;
+	
+	@JsonProperty("woeid")
+	private Integer id;
 	
 	@JsonProperty("latt_long")
-	private String  latitudeLongitude;
-	
-	@JsonProperty("distance")
-	private Long distancia;
+	private String latitudeLongitude;
 }

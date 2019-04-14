@@ -35,8 +35,8 @@ public class ClienteService {
 		System.out.println("LocalizacaoDTO: "+localizacao);
 //		LocationSearchResponse locationSearch = climaFacade.consultarLocalizacaoPorLatitudeLongitude(localizacao.getLatitude(), localizacao.getLongitude());
 //		System.out.println("LocationSearchResponse: "+locationSearch);
-		LocationSearchResponse locationSearch = climaFacade.consultarLocalizacaoPorCidade(localizacao.getCidade());
-		System.out.println("LocationSearchResponse: "+locationSearch);
+//		LocationSearchResponse locationSearch = climaFacade.consultarLocalizacaoPorCidade(localizacao.getCidade());
+		climaFacade.consultarLocalizacaoPorLatitudeLongitude(localizacao.getLatitude(), localizacao.getLongitude());
 		return this.repository.findAll();
 	}
 	

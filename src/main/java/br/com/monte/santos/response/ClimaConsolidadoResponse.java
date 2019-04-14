@@ -18,15 +18,15 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class ClimaResponse {
+public class ClimaConsolidadoResponse {
 	
 	@JsonProperty("id")
 	private Long id;
 	
-	@JsonProperty("")
+	@JsonProperty("weather_state_name")
 	private String tempo;
 	
-	@JsonProperty("")
+	@JsonProperty("weather_state_abbr")
 	private String siglaTempo;
 	
 	@JsonProperty("wind_direction_compass")
