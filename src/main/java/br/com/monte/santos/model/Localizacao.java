@@ -1,12 +1,11 @@
 package br.com.monte.santos.model;
 
-import javax.persistence.CascadeType;
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,18 +20,18 @@ import lombok.ToString;
 @Builder
 @EqualsAndHashCode
 @ToString
-@Entity(name = "cliente")
-public class Cliente {
+@Entity(name = "localizacao")
+public class Localizacao {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String nome;
+	private String idLocalizacaoMundial;
 	
-	private Integer idade;
+	private String cidade;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="id_localizacao")
-	private Localizacao localizacao;
+	private BigDecimal temperaturaMinima;
+	
+	private BigDecimal temperaturaMaxima;
 }

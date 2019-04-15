@@ -2,7 +2,6 @@ package br.com.monte.santos.facade;
 
 import org.springframework.stereotype.Component;
 
-import br.com.monte.santos.response.ClimaConsolidadoResponse;
 import br.com.monte.santos.response.LocationResponse;
 import br.com.monte.santos.response.LocationSearchResponse;
 import br.com.monte.santos.rest.client.RestClient;
@@ -35,27 +34,21 @@ public class ClimaFacade {
 //		return localizacao[0];
 //	}
 	
-	public LocationSearchResponse consultarLocalizacaoPorLatitudeLongitude(String latitude, String longitude) {
+	public LocationResponse consultarLocalizacaoPorLatitudeLongitude(String latitude, String longitude) {
+		// TODO: validar array de retorno. Caso vazio lancar exception
 		LocationSearchResponse locationSearch[] = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
 													   .getForObject(construirUrlComParametros(latitude, longitude), LocationSearchResponse[].class);
-//		System.out.println(locationSearch[0]);
+		LocationResponse location = consultarClimaPorLocalizacao(locationSearch[0].getId());
 		
-		consultarClimaPorLocalizacao(locationSearch[0].getId());
-		
-		return locationSearch[0];
+		return location;
 	}
 
-	private String construirUrlComParametros(String latitude, String longitude) {
-		return "/search/?lattlong="+latitude+","+longitude;
+	public LocationResponse consultarClimaPorLocalizacao(Long idLocalizacao) {
+		return RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
+														 .getForObject("/{woeid}", LocationResponse.class, idLocalizacao);
 	}
 	
-	public LocationResponse consultarClimaPorLocalizacao(Long idLocalizacao) {
-		LocationResponse localizacaoResponse = RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
-														 .getForObject("/{woeid}", LocationResponse.class, idLocalizacao);
-		
-		System.out.println(localizacaoResponse);
-		
-		return null;
-		
+	private String construirUrlComParametros(String latitude, String longitude) {
+		return "/search/?lattlong="+latitude+","+longitude;
 	}
 }

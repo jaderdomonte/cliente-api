@@ -15,10 +15,10 @@ public class GeolocalizacaoFacade {
 	public LocalizacaoDTO consultarLocalizacaoPorIp(String ip) {
 		ResponseEntity<IPVigilanteResponse> localizacaoResponse = RestClient.getRestTemplateBuilder(HTTPS_IPVIGILANTE_COM)
 															.getForEntity("/", IPVigilanteResponse.class, ip);
-		return convertTo(localizacaoResponse);
+		return converterParaLocalizacaoDTO(localizacaoResponse);
 	}
 	
-	private LocalizacaoDTO convertTo(ResponseEntity<IPVigilanteResponse> localizacaoResponse) {
+	private LocalizacaoDTO converterParaLocalizacaoDTO(ResponseEntity<IPVigilanteResponse> localizacaoResponse) {
 		return LocalizacaoDTO.builder().latitude(localizacaoResponse.getBody().getData().getLatitude())
 									   .longitude(localizacaoResponse.getBody().getData().getLongitude())
 									   .cidade(localizacaoResponse.getBody().getData().getCidade())

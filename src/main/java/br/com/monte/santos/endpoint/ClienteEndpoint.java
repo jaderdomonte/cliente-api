@@ -46,14 +46,13 @@ public class ClienteEndpoint {
 	
 	@PostMapping
 	public ResponseEntity<?> salvar(@RequestBody Cliente cliente, HttpServletRequest httpServletRequest) {
-		System.out.println("IP: "+httpServletRequest.getRemoteAddr());
-		Cliente clienteNovo = salvarOuAtualizar(cliente);
+		Cliente clienteNovo = this.service.salvar(cliente, httpServletRequest.getRemoteAddr());
 		return new ResponseEntity<>(clienteNovo, HttpStatus.CREATED);
 	}
 	
 	@PutMapping
 	public ResponseEntity<?> atualizar(@RequestBody Cliente cliente) {
-		salvarOuAtualizar(cliente);
+		this.service.salvar(cliente);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -61,9 +60,5 @@ public class ClienteEndpoint {
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
 		this.service.deletar(id);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-
-	private Cliente salvarOuAtualizar(Cliente cliente) {
-		return this.service.salvar(cliente);
 	}
 } 
