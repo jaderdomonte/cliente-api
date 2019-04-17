@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +41,7 @@ public class ClienteEndpoint {
 	}
 	
 	@GetMapping(path = "/{id}")
+	@Cacheable(value = "cliente")
 	public ResponseEntity<?> consultarPorId(@PathVariable("id") Long id) {
 		Cliente cliente = this.service.consultarPorId(id);
 		return new ResponseEntity<>(cliente, HttpStatus.OK);
@@ -51,6 +54,7 @@ public class ClienteEndpoint {
 	}
 	
 	@PutMapping
+	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> atualizar(@RequestBody Cliente cliente) {
 		this.service.salvar(cliente);
 		return new ResponseEntity<>(HttpStatus.OK);

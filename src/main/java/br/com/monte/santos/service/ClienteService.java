@@ -66,7 +66,7 @@ public class ClienteService {
 	}
 
 	private LocalizacaoDTO consultarLocalizacaoPorIP(String ip) {
-		return geolocalizacaoFacade.consultarLocalizacaoPorIp("189.40.57.170");
+		return geolocalizacaoFacade.consultarLocalizacaoPorIp(ip); //"189.40.57.170"
 	}
 	
 	public void deletar(Long idCliente) {
