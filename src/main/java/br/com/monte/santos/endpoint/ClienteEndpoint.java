@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.monte.santos.exceptions.RecursoNaoEncontradoException;
 import br.com.monte.santos.model.Cliente;
 import br.com.monte.santos.service.ClienteService;
 import io.swagger.annotations.Api;
@@ -35,10 +36,11 @@ import lombok.NoArgsConstructor;
 @RequestMapping(path = "v1/clientes")
 public class ClienteEndpoint {
 
+	private static final String CLIENTE_NÃO_ENCONTRADO_PARA_O_ID = "Cliente não encontrado para o ID: ";
 	@Autowired
 	private ClienteService service;
 	
-	@ApiOperation(value = "Lista todos os clientes")
+	@ApiOperation(value = "Lista todos os Clientes")
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listarTodos(HttpServletRequest httpServletRequest) {
 		List<Cliente> clientes = this.service.listarTodos();
@@ -50,15 +52,26 @@ public class ClienteEndpoint {
 	@Cacheable(value = "cliente")
 	public ResponseEntity<?> consultarPorId(@PathVariable("id") Long id) {
 		Cliente cliente = this.service.consultarPorId(id);
+		
+		if(isClienteInexistente(cliente)) {
+			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID+id);
+		}
+		
 		return new ResponseEntity<>(cliente, HttpStatus.OK);
 	}
+
+	private boolean isClienteInexistente(Cliente cliente) {
+		return cliente == null;
+	}
 	
+	@ApiOperation(value = "Salva um Cliente", response = Cliente.class)
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> salvar(@RequestBody Cliente cliente) {
 		Cliente clienteNovo = this.service.salvar(cliente);
 		return new ResponseEntity<>(clienteNovo, HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "Atualiza um Cliente")
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> atualizar(@RequestBody Cliente cliente) {
@@ -66,7 +79,9 @@ public class ClienteEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Apaga um Cliente")
 	@DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
 		this.service.deletar(id);
 		return new ResponseEntity<>(HttpStatus.OK);
