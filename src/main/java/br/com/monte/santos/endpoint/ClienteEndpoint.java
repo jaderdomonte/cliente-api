@@ -53,15 +53,15 @@ public class ClienteEndpoint {
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> salvar(@RequestBody Cliente cliente, HttpServletRequest httpServletRequest) {
-		Cliente clienteNovo = this.service.salvar(cliente, httpServletRequest.getRemoteAddr());
+	public ResponseEntity<?> salvar(@RequestBody Cliente cliente) {
+		Cliente clienteNovo = this.service.salvar(cliente);
 		return new ResponseEntity<>(clienteNovo, HttpStatus.CREATED);
 	}
 	
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> atualizar(@RequestBody Cliente cliente) {
-		this.service.salvar(cliente);
+		this.service.atualizar(cliente);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

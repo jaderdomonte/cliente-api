@@ -15,24 +15,8 @@ public class ClimaFacade {
 		LocationSearchResponse[] locationSearch= RestClient.getRestTemplateBuilder(META_WEATHER_API_LOCATION)
 														   .getForObject("/search/?query="+cidade, LocationSearchResponse[].class);
 		
-		System.out.println(locationSearch[0]);
-		
-		return null;
+		return locationSearch[0];
 	}
-	
-//	public LocationSearchResponse consultarLocalizacaoPorCidade(String cidade) {
-//
-//		LocationSearchResponse[] localizacao = null;
-//
-//		RestTemplate restTemplate = new RestTemplate();
-//		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//
-//		localizacao = restTemplate.getForObject(META_WEATHER_API_LOCATION_SEARCH + cidade, LocationSearchResponse[].class);
-//		
-//		System.out.println(localizacao[0]);
-//		
-//		return localizacao[0];
-//	}
 	
 	public LocationResponse consultarLocalizacaoPorLatitudeLongitude(String latitude, String longitude) {
 		// TODO: validar array de retorno. Caso vazio lancar exception

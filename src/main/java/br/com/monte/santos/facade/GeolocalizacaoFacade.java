@@ -12,9 +12,9 @@ public class GeolocalizacaoFacade {
 
 	private static final String HTTPS_IPVIGILANTE_COM = "https://ipvigilante.com";
 
-	public LocalizacaoDTO consultarLocalizacaoPorIp(String ip) {
+	public LocalizacaoDTO consultarLocalizacaoPorIp() {
 		ResponseEntity<IPVigilanteResponse> localizacaoResponse = RestClient.getRestTemplateBuilder(HTTPS_IPVIGILANTE_COM)
-															.getForEntity("/", IPVigilanteResponse.class, ip);
+															.getForEntity("/", IPVigilanteResponse.class);
 		return converterParaLocalizacaoDTO(localizacaoResponse);
 	}
 	

@@ -39,12 +39,12 @@ public class ClienteService {
 		return this.repository.findOne(idCliente);
 	}
 	
-	public Cliente salvar(Cliente cliente) {
+	public Cliente atualizar(Cliente cliente) {
 		return this.repository.save(cliente);
 	}
 	
-	public Cliente salvar(Cliente cliente, String ip) {
-		LocalizacaoDTO localizacao = consultarLocalizacaoPorIP(ip);
+	public Cliente salvar(Cliente cliente) {
+		LocalizacaoDTO localizacao = consultarLocalizacaoPorIP();
 		LocationResponse locationResponse = consultarClimaPorLocalizacao(localizacao);
 		Localizacao localizacaoCliente = construirLocalizacaoCliente(locationResponse);
 		cliente.setLocalizacao(localizacaoCliente);
@@ -65,8 +65,8 @@ public class ClienteService {
 		return climaFacade.consultarLocalizacaoPorLatitudeLongitude(localizacao.getLatitude(), localizacao.getLongitude());
 	}
 
-	private LocalizacaoDTO consultarLocalizacaoPorIP(String ip) {
-		return geolocalizacaoFacade.consultarLocalizacaoPorIp(ip); //"189.40.57.170"
+	private LocalizacaoDTO consultarLocalizacaoPorIP() {
+		return geolocalizacaoFacade.consultarLocalizacaoPorIp();
 	}
 	
 	public void deletar(Long idCliente) {
