@@ -1,5 +1,6 @@
 package br.com.monte.santos.facade;
 
+import br.com.monte.santos.constants.RestPaths;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +11,8 @@ import br.com.monte.santos.rest.client.RestClient;
 @Component
 public class GeolocalizacaoFacade {
 
-	private static final String HTTPS_IPVIGILANTE_COM = "https://ipvigilante.com";
-
 	public LocalizacaoDTO consultarLocalizacaoPorIp() {
-		ResponseEntity<IPVigilanteResponse> localizacaoResponse = RestClient.getRestTemplateBuilder(HTTPS_IPVIGILANTE_COM)
+		ResponseEntity<IPVigilanteResponse> localizacaoResponse = RestClient.getRestTemplateBuilder(RestPaths.HTTPS_IPVIGILANTE_COM)
 															.getForEntity("/", IPVigilanteResponse.class);
 		return converterParaLocalizacaoDTO(localizacaoResponse);
 	}

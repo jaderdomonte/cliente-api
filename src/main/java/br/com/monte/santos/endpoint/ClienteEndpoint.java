@@ -45,6 +45,7 @@ public class ClienteEndpoint {
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Retorna um Cliente por ID", response = Cliente.class)
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "cliente")
 	public ResponseEntity<?> consultarPorId(@PathVariable("id") Long id) {
