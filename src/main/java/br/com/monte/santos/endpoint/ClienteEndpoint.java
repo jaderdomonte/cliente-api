@@ -42,14 +42,14 @@ public class ClienteEndpoint {
 	@Autowired
 	private ClienteService service;
 	
-	@ApiOperation(value = "Lista todos os Clientes", response = Cliente[].class)
+	@ApiOperation(value = "Listar todos os Clientes", response = Cliente[].class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listarTodos(HttpServletRequest httpServletRequest) {
 		List<Cliente> clientes = this.service.listarTodos();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "Retorna um Cliente por ID", response = Cliente.class)
+	@ApiOperation(value = "Retornar Cliente por ID", response = Cliente.class)
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "cliente")
 	public ResponseEntity<?> consultarPorId(@PathVariable("id") Long id) {
@@ -66,14 +66,14 @@ public class ClienteEndpoint {
 		return cliente == null;
 	}
 	
-	@ApiOperation(value = "Salva um Cliente", response = Cliente.class)
+	@ApiOperation(value = "Salvar Cliente", response = Cliente.class)
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> salvar(@RequestBody Cliente cliente) {
 		Cliente clienteNovo = this.service.salvar(cliente);
 		return new ResponseEntity<>(clienteNovo, HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Atualiza um Cliente")
+	@ApiOperation(value = "Atualizar Cliente")
 	@PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> atualizar(@RequestBody Cliente cliente) {
@@ -81,7 +81,7 @@ public class ClienteEndpoint {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@ApiOperation(value = "Apaga um Cliente")
+	@ApiOperation(value = "Apagar Cliente")
 	@DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {

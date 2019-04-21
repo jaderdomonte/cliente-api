@@ -24,7 +24,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
 	private ApiInfo metaData() {
 		return new ApiInfoBuilder().title("Cliente API")
-								   .description("\"Cliente API para Processo Seletivo do UOL\"")
+								   .description("\"API de Clientes para Processo Seletivo do UOL\"")
 								   .version("1.0.0")
 								   .build();
 	}
