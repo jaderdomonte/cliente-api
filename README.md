@@ -30,4 +30,16 @@ Para executar o projeto as seguintes ferramentas devem estar instaladas:
 3. Project Lombok.
 
 Seguem instruções para empacotar, executar e testar o projeto:
-1. Após baixar o fonte, entrar na pasta raiz do projeto e executar o comando mvn clean package 
+1. Após baixar o fonte, entrar na pasta raiz do projeto e executar o comando: mvn clean package 
+2. Ainda dentro da pasta raiz do projeto, entrar na pasta target/ e executar o comando: java -jar cliente-api.jar
+3. Os serviços e sua documentação completa estarão disponíveis no endereço http://localhost:8080/cliente-api/swagger-ui.html
+4. Caso queira consumir a API por outra aplicação ou acessar os serviços por um app como o Postman, as URL's estão a seguir:
+	4.1. Listar todos os Clientes (Método GET): http://localhost:8080/cliente-api/v1/clientes
+	4.2. Salvar Cliente (Método POST): http://localhost:8080/cliente-api/v1/clientes
+	4.3. Atualizar Cliente (Método PUT): http://localhost:8080/cliente-api/v1/clientes
+	4.4. Apagar Cliente (Método DELETE): http://localhost:8080/cliente-api/v1/clientes/{id}
+	4.5. Retornar Cliente por ID (Método GET): http://localhost:8080/cliente-api/v1/clientes/{id}
+
+Segue o processo para por a API em produção:
+1. Copiar o arquivo cliente-api.jar para o servidor de produção.
+2. Entrar na pasta onde o arquivo cliente-api.jar está e executar o comando: java -jar cliente-api.jar
