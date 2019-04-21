@@ -18,7 +18,6 @@ public class ClimaFacade {
 	}
 	
 	public LocationResponse consultarLocalizacaoPorLatitudeLongitude(String latitude, String longitude) {
-		// TODO: validar array de retorno. Caso vazio lancar exception
 		LocationSearchResponse locationSearch[] = RestClient.getRestTemplateBuilder(RestPaths.META_WEATHER_API_LOCATION)
 													   .getForObject(construirUrlComParametros(latitude, longitude), LocationSearchResponse[].class);
 		LocationResponse location = consultarClimaPorLocalizacao(locationSearch[0].getId());

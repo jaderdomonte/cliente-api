@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,10 +38,11 @@ import lombok.NoArgsConstructor;
 public class ClienteEndpoint {
 
 	private static final String CLIENTE_NÃO_ENCONTRADO_PARA_O_ID = "Cliente não encontrado para o ID: ";
+	
 	@Autowired
 	private ClienteService service;
 	
-	@ApiOperation(value = "Lista todos os Clientes")
+	@ApiOperation(value = "Lista todos os Clientes", response = Cliente[].class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> listarTodos(HttpServletRequest httpServletRequest) {
 		List<Cliente> clientes = this.service.listarTodos();
@@ -54,7 +56,7 @@ public class ClienteEndpoint {
 		Cliente cliente = this.service.consultarPorId(id);
 		
 		if(isClienteInexistente(cliente)) {
-			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID+id);
+			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID + id);
 		}
 		
 		return new ResponseEntity<>(cliente, HttpStatus.OK);
@@ -83,7 +85,12 @@ public class ClienteEndpoint {
 	@DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@CacheEvict(allEntries=true, value="cliente", beforeInvocation=false)
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
-		this.service.deletar(id);
+		try {
+			this.service.deletar(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID + id);
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 } 
