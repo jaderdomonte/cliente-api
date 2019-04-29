@@ -1,8 +1,8 @@
 package br.com.monte.santos.endpoint;
 
-import java.util.List;
+import static br.com.monte.santos.constants.MessageErrorConstants.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -36,15 +36,13 @@ import lombok.NoArgsConstructor;
 @RestController
 @RequestMapping(path = "v1/clientes")
 public class ClienteEndpoint {
-
-	private static final String CLIENTE_NÃO_ENCONTRADO_PARA_O_ID = "Cliente não encontrado para o ID: ";
 	
 	@Autowired
 	private ClienteService service;
 	
 	@ApiOperation(value = "Listar todos os Clientes", response = Cliente[].class)
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> listarTodos(HttpServletRequest httpServletRequest) {
+	public ResponseEntity<?> listarTodos() {
 		List<Cliente> clientes = this.service.listarTodos();
 		return new ResponseEntity<>(clientes, HttpStatus.OK);
 	}
@@ -53,17 +51,15 @@ public class ClienteEndpoint {
 	@GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Cacheable(value = "cliente")
 	public ResponseEntity<?> consultarPorId(@PathVariable("id") Long id) {
-		Cliente cliente = this.service.consultarPorId(id);
+		Cliente cliente = null;
 		
-		if(isClienteInexistente(cliente)) {
-			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID + id);
+		try {
+			cliente = this.service.consultarPorId(id);
+		} catch (RecursoNaoEncontradoException e) {
+			throw e;
 		}
-		
-		return new ResponseEntity<>(cliente, HttpStatus.OK);
-	}
 
-	private boolean isClienteInexistente(Cliente cliente) {
-		return cliente == null;
+		return new ResponseEntity<>(cliente, HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Salvar Cliente", response = Cliente.class)

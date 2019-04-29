@@ -1,11 +1,14 @@
 package br.com.monte.santos.service;
 
+import static br.com.monte.santos.constants.MessageErrorConstants.*;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.monte.santos.dto.LocalizacaoDTO;
+import br.com.monte.santos.exceptions.RecursoNaoEncontradoException;
 import br.com.monte.santos.facade.ClimaFacade;
 import br.com.monte.santos.facade.GeolocalizacaoFacade;
 import br.com.monte.santos.model.Cliente;
@@ -21,7 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Service
 public class ClienteService {
-
+	
 	@Autowired
 	private ClienteRepository repository;
 	
@@ -36,7 +39,17 @@ public class ClienteService {
 	}
 	
 	public Cliente consultarPorId(Long idCliente) {
-		return this.repository.findOne(idCliente);
+		Cliente cliente = this.repository.findOne(idCliente);
+		
+		if(isClienteInexistente(cliente)) {
+			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID + idCliente);
+		}
+		
+		return cliente;
+	}
+	
+	private boolean isClienteInexistente(Cliente cliente) {
+		return cliente == null;
 	}
 	
 	public Cliente atualizar(Cliente cliente) {
