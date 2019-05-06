@@ -14,10 +14,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.monte.santos.exceptions.RecursoNaoEncontradoException;
 import br.com.monte.santos.model.Cliente;
 import br.com.monte.santos.service.ClienteService;
 
@@ -58,7 +58,7 @@ public class ClienteEndpointTest {
 	@Test
 	public void deveRetornarCodigo404AoConsultarClientePorIdInexistente() {
 		Long idCliente = 3L;
-		BDDMockito.when(service.consultarPorId(idCliente)).thenReturn(null);
+		BDDMockito.when(service.consultarPorId(idCliente)).thenThrow(new RecursoNaoEncontradoException(""));
 		
 		ResponseEntity<String> response = restTemplate.getForEntity("/v1/clientes/{id}", String.class, idCliente);
 		

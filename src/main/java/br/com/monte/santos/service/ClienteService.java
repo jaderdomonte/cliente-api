@@ -1,6 +1,6 @@
 package br.com.monte.santos.service;
 
-import static br.com.monte.santos.constants.MessageErrorConstants.*;
+import static br.com.monte.santos.constants.MessageErrorConstants.CLIENTE_NÃO_ENCONTRADO_PARA_O_ID;
 
 import java.util.List;
 
