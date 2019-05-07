@@ -5,5 +5,9 @@ jdk:
 # obviously this only works for maven builds right now...
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+env:
+- HEROKU_API_KEY=5411d9c3-5029-4447-9d1d-9654f7dd9951
 script:
-- mvn test
+- HEROKU_API_KEY="$HEROKU_API_KEY" mvn clean verify -Pheroku
+# mvn test
+
