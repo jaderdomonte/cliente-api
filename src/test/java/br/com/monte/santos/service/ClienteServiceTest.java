@@ -21,6 +21,7 @@ import br.com.monte.santos.model.Cliente;
 import br.com.monte.santos.repository.ClienteRepository;
 import br.com.monte.santos.response.ClimaConsolidadoResponse;
 import br.com.monte.santos.response.LocationResponse;
+import br.com.monte.santos.service.ClienteService;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

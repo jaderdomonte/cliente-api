@@ -1,14 +1,10 @@
 package br.com.monte.santos.service;
 
-import static br.com.monte.santos.constants.MessageErrorConstants.CLIENTE_NÃO_ENCONTRADO_PARA_O_ID;
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import br.com.monte.santos.dto.LocalizacaoDTO;
-import br.com.monte.santos.exceptions.RecursoNaoEncontradoException;
 import br.com.monte.santos.facade.ClimaFacade;
 import br.com.monte.santos.facade.GeolocalizacaoFacade;
 import br.com.monte.santos.model.Cliente;
@@ -23,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Service
-public class ClienteService {
+public class ClienteService extends br.com.monte.santos.service.abstraction.Service<Cliente> {
 	
 	@Autowired
 	private ClienteRepository repository;
@@ -34,28 +30,7 @@ public class ClienteService {
 	@Autowired
 	private ClimaFacade climaFacade;
 	
-	public List<Cliente> listarTodos(){
-		return this.repository.findAll();
-	}
-	
-	public Cliente consultarPorId(Long idCliente) {
-		Cliente cliente = this.repository.findOne(idCliente);
-		
-		if(isClienteInexistente(cliente)) {
-			throw new RecursoNaoEncontradoException(CLIENTE_NÃO_ENCONTRADO_PARA_O_ID + idCliente);
-		}
-		
-		return cliente;
-	}
-	
-	private boolean isClienteInexistente(Cliente cliente) {
-		return cliente == null;
-	}
-	
-	public Cliente atualizar(Cliente cliente) {
-		return this.repository.save(cliente);
-	}
-	
+	@Override
 	public Cliente salvar(Cliente cliente) {
 		LocalizacaoDTO localizacao = consultarLocalizacaoPorIP();
 		LocationResponse locationResponse = consultarClimaPorLocalizacao(localizacao);
@@ -82,7 +57,7 @@ public class ClienteService {
 		return geolocalizacaoFacade.consultarLocalizacaoPorIp();
 	}
 	
-	public void deletar(Long idCliente) {
-		this.repository.delete(idCliente);
+	public JpaRepository<Cliente, Long> getRepository() {
+		return repository;
 	}
 }
