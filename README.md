@@ -18,7 +18,7 @@ Abaixo seguem as ferramentas utilizadas no projeto:
 3. Spring Boot 1.5.19: utilizada para facilitar o processo de configuração e publicação da aplicação. Trata-se de um dos requisitos do projeto proposto pelo processo seletivo.
 4. Spring Data JPA 1.11.18: utilizada para facilitar e aumentar a produtividade ao criar a camada de DAO ou Repository. Escolhida por ser uma excelente ferramenta que diminui a verbosidade, provê diversas consultas e convenções ao acesso aos dados e fazer parte do ecossistema Spring.
 5. Spring MVC 1.5.19: utilizada para configurar o projeto como web. Escolhida pela facilidade de uso e por fazer parte do ecossistema Spring.
-6. Spring Boot Dev Tools 1.5.19: utilizada para facilitar o processo de desenvolvimento. Escolhida pela falicidade de uso e por fazer parte do ecossistema Spring.
+6. Spring Boot Dev Tools 1.5.19: utilizada para facilitar o processo de desenvolvimento. Escolhida pela facilidade de uso e por fazer parte do ecossistema Spring.
 7. H2 1.4.197: utilizada para construir um banco de dados em memória. Escolhida pela familiaridade e facilidade de uso.
 8. Spring Boot Starter Test 1.5.19: utilizada para gerenciar as dependências e configuração dos testes unitários. Escolhida pela facilidade de uso e por fazer parte do ecossistema Spring.
 9. Hibernate 5.0.12: utilizada para implementar o mapeamento objeto relacional. Escolhida por ser uma excelente ferramenta, familiaridade e fácil uso.
